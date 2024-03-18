@@ -7,7 +7,6 @@ void main() {
   if (text != null) {
     var chave =
         List.generate(text.length, (index) => geradorRandom.nextInt(1000));
-    print(chave.toString());
     String textoCriptografado =
         cifraVigenereEncode(text.toUpperCase(), chave.toString());
     print('Texto criptografado: ' + textoCriptografado);
