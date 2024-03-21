@@ -3,17 +3,27 @@ import 'dart:math';
 
 void main() {
   String? text = stdin.readLineSync();
-  var geradorRandom = Random(); //nao da pra instanciar na declaração
+
   if (text != null) {
-    var chave =
-        List.generate(text.length, (index) => geradorRandom.nextInt(1000));
-    String textoCriptografado =
-        cifraVigenereEncode(text.toUpperCase(), chave.toString());
+    var chave = keyGenerator(text.toUpperCase()).toString();
+    print('Chave: ' + chave);
+
+    String textoCriptografado = cifraVigenereEncode(text.toUpperCase(), chave);
     print('Texto criptografado: ' + textoCriptografado);
     String textoDescriptografado =
         cifraVigenereDecode(textoCriptografado, chave.toString());
     print('Texto descriptografado: ' + textoDescriptografado);
   }
+}
+
+String keyGenerator(String text) {
+  var geradorRandom = Random();
+  String key = '';
+  List.generate(text.length, (index) => geradorRandom.nextInt(180))
+      .forEach((element) {
+    key += String.fromCharCode(element);
+  });
+  return key;
 }
 
 String cifraVigenereDecode(String textoCriptografado, String string) {

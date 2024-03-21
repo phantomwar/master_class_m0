@@ -17,20 +17,20 @@ validarCpf(String cpf) {
   }
 }
 
-bool validarDigitoCpf(String cpf, int digito) {
+bool validarDigitoCpf(String cpf, int digitoVerificador) {
   int soma = 0;
-  int limiteArray = 7 + digito;
+  int limiteArray = 7 + digitoVerificador;
   for (int i = 0; i <= limiteArray; i++) {
     soma += int.parse(cpf[limiteArray - i]) * (2 + i);
   }
   double resto = soma % 11;
   if (resto < 2) {
-    if (int.parse(cpf[8 + digito]) != 0) {
+    if (int.parse(cpf[8 + digitoVerificador]) != 0) {
       print('Cpf invalido');
       return false;
     }
   } else {
-    if (int.parse(cpf[8 + digito]) != 11 - resto) {
+    if (int.parse(cpf[8 + digitoVerificador]) != 11 - resto) {
       print('Cpf invalido');
       return false;
     }
