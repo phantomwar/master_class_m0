@@ -3,15 +3,14 @@ import 'dart:math';
 
 void main() {
   String? text = stdin.readLineSync();
-
   if (text != null) {
-    var chave = keyGenerator(text.toUpperCase()).toString();
+    var chave = keyGenerator(text.toUpperCase());
     print('Chave: ' + chave);
 
     String textoCriptografado = cifraVigenereEncode(text.toUpperCase(), chave);
     print('Texto criptografado: ' + textoCriptografado);
     String textoDescriptografado =
-        cifraVigenereDecode(textoCriptografado, chave.toString());
+        cifraVigenereDecode(textoCriptografado, chave);
     print('Texto descriptografado: ' + textoDescriptografado);
   }
 }
