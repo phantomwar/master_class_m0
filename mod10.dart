@@ -1,38 +1,48 @@
+import 'dart:io';
+
 void main() {
-  String? cartao = '4916 6418 5936 9080';
-  validarCartao(cartao);
+  String card = '4916 6418 5936 9080';
+  print('Insira o cartão de credito:');
+  String? inputCard = stdin.readLineSync();
+  if (inputCard == null || inputCard == '') {
+    print(
+        'Cartão digitado vazio, para proposito de teste utilizamos o cartão $card');
+    inputCard = card;
+  }
+  creditCardValidator(inputCard);
 }
 
-void validarCartao(String cartao) {
+void creditCardValidator(String card) {
   final regEx = RegExp(r'[^\d]');
-  int soma = 0;
-  String cartaoVerificado = cartao.replaceAll(regEx, '');
-  if (cartaoVerificado.length != 16) {
+  String cardForVerification = card.replaceAll(regEx, '');
+  if (cardForVerification.length != 16) {
     print('Cartão invalido');
     return;
   }
-  for (int i = 0; i < cartaoVerificado.length - 1; i++) {
+  int verifyingDigit = int.parse(cardForVerification[15]);
+  int total = 0;
+
+  for (int i = 0; i < cardForVerification.length - 1; i++) {
     if (i % 2 == 0 || i == 0) {
-      String preSoma = '${int.parse(cartaoVerificado[i]) * 2}';
-      if (preSoma.length == 2) {
-        soma += int.parse(preSoma[0]) + int.parse(preSoma[1]);
+      String auxiliarySum = '${int.parse(cardForVerification[i]) * 2}';
+      if (auxiliarySum.length == 2) {
+        total += int.parse(auxiliarySum[0]) + int.parse(auxiliarySum[1]);
       } else {
-        soma += int.parse(preSoma);
+        total += int.parse(auxiliarySum);
       }
     } else {
-      soma += int.parse(cartaoVerificado[i] * 1);
+      total += int.parse(cardForVerification[i] * 1);
     }
   }
-  //testei varios numeros validos fora esse do enunciado,
-  //sempre que o digito verificador era diferente de 0 dava certo
-  //deposi de pesquisar, sempre que o resultado for igual a 10 é 0
-  int resultado = 10 - soma.remainder(10);
-  if (resultado == 10) {
-    resultado = 0;
+
+  // sempre que o resultado for igual a 10 é 0
+  int result = 10 - total.remainder(10);
+  if (result == 10) {
+    result = 0;
   }
-  if (int.parse(cartaoVerificado[15]) == (resultado)) {
-    print('Cartão valido');
+  if (verifyingDigit == (result)) {
+    print('Cartão $cardForVerification é valido');
   } else {
-    print('Cartão invalido');
+    print('Cartão $cardForVerification é invalido');
   }
 }
